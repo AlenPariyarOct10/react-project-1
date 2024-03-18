@@ -36,3 +36,31 @@
     transform: rotate(360deg);
   }
 }
+
+
+.navContainer{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+}
+
+.header-center{
+  
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+  align-items: center;
+}
+
+.header-left{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileImg{
+  height: 50px;
+  border-radius: 50%;
+}
