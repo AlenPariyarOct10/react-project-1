@@ -4,16 +4,18 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import { Layout } from "./Layout";
 
+import Blog from "../component/user/Blog";
 const AdminDashboard = React.lazy(() =>
   import("../component/admin/AdminDashboard")
 );
 const PageNotFound = React.lazy(() => import("../component/PageNotFound"));
 const UserLayout = React.lazy(() => import("../component/layout/UserLayout"));
 const Information = React.lazy(() =>
-  import("../component/user/dashboard/Information")
+  import("../component/user/Information")
+  
 );
+
 const AdminLayout = React.lazy(() => import("../component/layout/AdminLayout"));
 
 export const MainRouter = createBrowserRouter(
@@ -21,9 +23,9 @@ export const MainRouter = createBrowserRouter(
     <Route>
       <Route path="/" element={<UserLayout></UserLayout>}>
         <Route index element={<Information title="User - Information"></Information>}></Route>
-        <Route path="blog" element={<Information title="User - Blog"></Information>}></Route>
+        <Route path="blog" element={<Blog title="User - Blog"></Blog>}></Route>
       </Route>
-      <Route path="/admin" element={<Layout></Layout>}>
+      <Route path="/admin" element={<AdminLayout></AdminLayout>}>
         <Route
           path="dashboard"
           element={<AdminDashboard></AdminDashboard>}
