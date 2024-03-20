@@ -5,10 +5,12 @@ import {
   Route,
 } from "react-router-dom";
 
+
 import Blog from "../component/user/Blog";
 const AdminDashboard = React.lazy(() =>
   import("../component/admin/AdminDashboard")
 );
+const Login = React.lazy(()=> import("../component/user/Login"));
 const PageNotFound = React.lazy(() => import("../component/PageNotFound"));
 const UserLayout = React.lazy(() => import("../component/layout/UserLayout"));
 const Information = React.lazy(() =>
@@ -24,6 +26,8 @@ export const MainRouter = createBrowserRouter(
       <Route path="/" element={<UserLayout></UserLayout>}>
         <Route index element={<Information title="User - Information"></Information>}></Route>
         <Route path="blog" element={<Blog title="User - Blog"></Blog>}></Route>
+        <Route path="login" element={<Login title="User - Login"></Login>}></Route>
+
       </Route>
       <Route path="/admin" element={<AdminLayout></AdminLayout>}>
         <Route
