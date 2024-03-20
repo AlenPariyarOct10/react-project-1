@@ -1,7 +1,8 @@
 import React from "react";
-import { Button, Flex } from "antd";
-import { Layout, Menu, theme, ConfigProvider } from "antd";
+import { Button, } from "antd";
+import { Layout, theme, ConfigProvider } from "antd";
 import "../../App.css";
+import "../../index.css";
 import icon from "../../images/react.jpg";
 import { NavLink, Outlet } from "react-router-dom";
 
@@ -76,6 +77,7 @@ const UserLayout = () => {
                 </NavLink>
               ))}
             </div>
+            
             <div className="header-right">
               {authInfo?.map((item) => (
                 <NavLink key={item?.link} to={item?.link}>
@@ -107,6 +109,7 @@ const UserLayout = () => {
           style={{
             textAlign: "center",
           }}
+          className="text-white"
         >
           KMC React ©{new Date().getFullYear()} Created by <b>Alen Pariyar</b>
         </Footer>
