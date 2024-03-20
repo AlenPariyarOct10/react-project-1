@@ -1,11 +1,10 @@
 import React from "react";
-import { Button, Flex } from "antd";
-import { Layout, Menu, theme, ConfigProvider } from "antd";
+import { Layout, theme, ConfigProvider } from "antd";
 import "../../App.css";
 import icon from "../../images/react.jpg";
 import { NavLink, Outlet } from "react-router-dom";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content, } = Layout;
 const items = new Array(3).fill(null).map((_, index) => ({
   key: String(index + 1),
   label: `nav ${index + 1}`,

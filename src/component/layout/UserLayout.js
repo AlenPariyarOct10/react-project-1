@@ -109,7 +109,7 @@ const UserLayout = () => {
           style={{
             textAlign: "center",
           }}
-          className="text-white"
+          className="text-white font-mono"
         >
           KMC React ©{new Date().getFullYear()} Created by <b>Alen Pariyar</b>
         </Footer>
