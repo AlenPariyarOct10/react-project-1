@@ -6,7 +6,7 @@ const onFinish = (values) => {
 const onFinishFailed = (errorInfo) => {
   console.log('Failed:', errorInfo);
 };
-const Login = ({title}) => (
+const Signup = ({title}) => (
     <>
     <h2>{title}</h2>
   <Form
@@ -71,10 +71,10 @@ const Login = ({title}) => (
       }}
     >
       <Button type="primary" htmlType="submit">
-        Login
+        Signup
       </Button>
     </Form.Item>
   </Form>
   </>
 );
-export default Login;
+export default Signup;

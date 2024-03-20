@@ -10,7 +10,7 @@ const items = new Array(3).fill(null).map((_, index) => ({
   key: String(index + 1),
   label: `nav ${index + 1}`,
 }));
-const UserLayout = () => {
+const AuthLayout = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -33,16 +33,7 @@ const UserLayout = () => {
     },
   ];
 
-  const authInfo = [
-    {
-      name: "Login",
-      link: "/auth/login",
-    },
-    {
-      name: "Signup",
-      link: "/auth/signup",
-    },
-  ];
+  
 
   return (
     <ConfigProvider
@@ -70,21 +61,9 @@ const UserLayout = () => {
               <img className="profileImg" src={icon} alt="" />
             </div>
             <div className="header-center">
-              {navItems?.map((item) => (
-                <NavLink key={item?.key} to={item?.link}>
-                  {item?.name}
-                </NavLink>
-              ))}
+              
             </div>
-            <div className="header-right">
-              {authInfo?.map((item) => (
-                <NavLink key={item?.link} to={item?.link}>
-                  <Button style={{ margin: "0px 2px 0px 2px" }} type="primary">
-                    {item?.name}
-                  </Button>
-                </NavLink>
-              ))}
-            </div>
+            
           </div>
         </Header>
         <Content
@@ -100,18 +79,13 @@ const UserLayout = () => {
               borderRadius: borderRadiusLG,
             }}
           >
+            
             <Outlet></Outlet>
           </div>
         </Content>
-        <Footer
-          style={{
-            textAlign: "center",
-          }}
-        >
-          KMC React ©{new Date().getFullYear()} Created by <b>Alen Pariyar</b>
-        </Footer>
+       
       </Layout>
     </ConfigProvider>
   );
 };
-export default UserLayout;
+export default AuthLayout;
