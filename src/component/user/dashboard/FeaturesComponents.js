@@ -4,15 +4,13 @@ import { Card, Button, Avatar } from "antd";
 
 const FeaturesComponents = ({ title, data, color }) => {
 
-    const [currentCount, nextCount] = useState([{
-        
-    }]);
+    const [currentCount, nextCount] = useState([{}]);
 
     return (
         <>
             {console.log(color)}
             <div className='mt-3 text-3xl font-extrabold tracking-tight text-slate-900'>
-                <h1>Selected : {currentCount.length-1}</h1>
+                <h1>Selected : {currentCount.length}</h1>
 
                 <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-3xl dark:text-white"><mark class={"px-2 " + color} >{title}</mark></h1>
             </div>
@@ -37,7 +35,8 @@ const FeaturesComponents = ({ title, data, color }) => {
                                         {product.description}
                                     </p>
                                 </div>
-                                <Button onClick={(product)=>{nextCount((data)=>[...data, {id: data.id}])}} className='bg-black  hover:bg-slate-900 text-white font-bold my-3 w-full rounded-full'>Add to cart</Button>
+                                <Button onClick={() => {nextCount((prevData) => [...prevData, { id: product.id }]);console.log(currentCount)}} className='bg-black hover:bg-slate-900 text-white font-bold my-3 w-full rounded-full'>Add to cart</Button>
+
                             </Card>
                         </div>
 

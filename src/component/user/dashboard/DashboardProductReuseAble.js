@@ -1,8 +1,21 @@
 import React from 'react';
 import {Card, Button} from "antd";
+import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../../ContextAPI';
 
 const DashboardProductReuseAble = ({title, data, color}) => {
-    
+    const {appState, updateState} = useAppContext()
+    const navigate = useNavigate();
+    const handleProductDetail = (product) =>{
+        navigate("../ProductDetail");
+        updateState({
+            ...appState,
+            data: product
+        })
+    }
+
+  
     return (
         <>
         {console.log(color)}
@@ -15,7 +28,8 @@ const DashboardProductReuseAble = ({title, data, color}) => {
             {
                 data?.map((product) => (
                 
-                    <div key={product.id}>
+                    <div onClick={()=>handleProductDetail(product)} key={product.id}>
+                        
                         <Card
                             cover={<img height="20px" src={product.image}></img>}
                             >
@@ -25,6 +39,7 @@ const DashboardProductReuseAble = ({title, data, color}) => {
                             <Button className='bg-blue-500 hover:bg-blue-700 text-white font-bold my-3 w-full rounded-full'>Buy now</Button>
                                 
                         </Card>
+                        
                     </div>
                 ))
             }
