@@ -39,7 +39,7 @@ const ProductDetail = () => {
           <Rate allowHalf defaultValue={appState.data.rate} />
           </div>
          
-        <h2 class="text-sm title-font text-gray-500 tracking-widest">{appState.data.price}</h2>
+        <h2 class="text-sm title-font text-green-800 tracking-widest">${appState.data.price}</h2>
         <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{appState.data.name}</h1>
         
         <p class="leading-relaxed">{appState.data.description}</p>
@@ -53,13 +53,12 @@ const ProductDetail = () => {
           </div>
          
           <div class="flex ml-6 items-center">
-            <span class="mr-3">Size</span>
+            <span class="mr-3">Varient</span>
             <div class="relative">
               <select class="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
-                <option>SM</option>
-                <option>M</option>
-                <option>L</option>
-                <option>XL</option>
+                <option>32 GB</option>
+                <option>64 GB</option>
+                <option>128 GB</option>
               </select>
             </div>
            
