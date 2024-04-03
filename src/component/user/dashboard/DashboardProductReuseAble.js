@@ -15,9 +15,28 @@ const DashboardProductReuseAble = ({title, data, color}) => {
         })
     }
 
+    const addToCart = (product) => {
+        const existingItemIndex = appState.cart.findIndex(item => item.id === product.id);
+        if (existingItemIndex !== -1) {
+          const updatedCart = [...appState.cart];
+          updatedCart[existingItemIndex].quantity = 1;
+          updateState({
+            ...appState,
+            cart: updatedCart
+          });
+        } else {
+          updateState({
+            ...appState,
+            cart: [...appState.cart, { ...product, quantity: 1 }]
+          });
+        }
+      };
+      
+
   
     return (
         <>
+        
         {console.log(color)}
         <div className='mt-3 text-3xl font-extrabold tracking-tight text-slate-900'>
                 
@@ -28,15 +47,16 @@ const DashboardProductReuseAble = ({title, data, color}) => {
             {
                 data?.map((product) => (
                 
-                    <div onClick={()=>handleProductDetail(product)} key={product.id}>
+                    <div key={product.id}>
                         
                         <Card
-                            cover={<img height="20px" src={product.image}></img>}
+                            cover={<img onClick={()=>handleProductDetail(product)} height="20px" src={product.image}></img>}
                             >
                             <p className='mb-2 text-1xl font-extrabold text-slate-900'>{product.name}</p>
                             <p>${product.price}</p>
                             <p>{product.description}</p>
                             <Button className='bg-blue-500 hover:bg-blue-700 text-white font-bold my-3 w-full rounded-full'>Buy now</Button>
+                            <Button onClick={()=>addToCart(product)} className='bg-yellow-500 hover:bg-yellow-700 text-white font-bold my-3 w-full rounded-full'>Add to cart</Button>
                                 
                         </Card>
                         

@@ -20,6 +20,7 @@ const UserLayout = React.lazy(() => import("../component/layout/UserLayout"));
 const AuthLayout = React.lazy(() => import("../component/layout/AuthLayout"));
 const DashBoard = React.lazy(() => import("../component/user/dashboard/DashBoard"));
 const ProductDetail = React.lazy(()=> import("../component/user/ProductDetail"));
+const ViewCart = React.lazy(()=> import("../component/user/ViewCart"));
 
 const Information = React.lazy(() =>
   import("../component/user/Information")
@@ -35,6 +36,7 @@ export const MainRouter = createBrowserRouter(
         <Route index element={<DashBoard></DashBoard>}></Route>
         <Route path="blog" element={<Blog title="User - Blog"></Blog>}></Route>
         <Route path="productDetail" element={<ProductDetail></ProductDetail>}></Route>
+        <Route path="viewCart" element={<ViewCart></ViewCart>}></Route>
       </Route>
 
       <Route path="/auth" element={<AuthLayout/>}>

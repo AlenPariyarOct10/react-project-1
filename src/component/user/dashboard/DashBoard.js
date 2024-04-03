@@ -6,13 +6,36 @@ import FeaturesComponents from './FeaturesComponents';
 import CarouselDash from './CarouselDash';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Button, Drawer, Radio, Space } from 'antd';
+import { DrawerProps, RadioChangeEvent } from 'antd';
+import { useState } from 'react';
+import { useAppContext } from '../../ContextAPI';
+import {Card} from 'antd';
+import CartProductDetail from '../../cart/CartProductDetail';
 
 
 const DashBoard = () => {
+    const { appState } = useAppContext();
+    console.log(appState);
+    let costPrice = appState.cart.reduce((accum, product)=>accum+parseInt(product.price)*product.quantity, 0);
+    let discountPrice = appState.cart.reduce((accum, product)=>accum+(parseInt(product.price*product.discount/100))*product.quantity, 0);
+    let grandTotal = costPrice-discountPrice;
+    const [open, setOpen] = useState(false);
+    const [placement, setPlacement] = useState('right');
+    const showDrawer = () => {
+      setOpen(true);
+    };
+    const onChange = (e) => {
+      setPlacement(e.target.value);
+    };
+    const onClose = () => {
+      setOpen(false);
+    };
     
     return (
         <>
-        
+       
+          
        <DashboardProductReuseAble title={"Hot Products 🔥"} data={hotproduct} color={"text-white rounded dark:bg-yellow-300"}></DashboardProductReuseAble>
        <div>
             <CarouselDash title="Latest products" data={hotproduct}/>
