@@ -9,10 +9,9 @@ const CartProductDetail = ({ id, name, description, image, quantity: initialQuan
     const handleQuantityChange = (event) => {
         const newQuantity = parseInt(event.target.value, 10);
         setQuantity(newQuantity);
-
-     const removeItem = (id) =>{
         
-     }   
+
+       
 
         const updatedCart = appState.cart.map(item => {
             if (item.id === id) {
@@ -27,6 +26,11 @@ const CartProductDetail = ({ id, name, description, image, quantity: initialQuan
         // Update the cart in the app state
         updateState({ cart: updatedCart });
     };
+
+    const removeItem = (id) =>{
+        const newCart = appState.cart.filter(item => item.id != id);
+        updateState({cart: newCart});
+     } 
 
     return (
         <div className="rounded overflow-hidden shadow-lg">
