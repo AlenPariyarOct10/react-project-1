@@ -7,24 +7,25 @@ const CartProductDetail = ({ id, name, description, image, quantity: initialQuan
     const { appState, updateState } = useAppContext();
 
     const handleQuantityChange = (event) => {
-        const newQuantity = parseInt(event.target.value, 10);
-        setQuantity(newQuantity);
+        const newQuantity = parseInt(event.target.value);
+        if(newQuantity > 1)
+        {
+            setQuantity(newQuantity);
+
+            const updatedCart = appState.cart.map(item => {
+                if (item.id === id) {
+                    return {
+                        ...item,
+                        quantity: newQuantity
+                    };
+                }
+                return item;
+            });
+    
+            updateState({ cart: updatedCart });
+        }
         
-
-       
-
-        const updatedCart = appState.cart.map(item => {
-            if (item.id === id) {
-                return {
-                    ...item,
-                    quantity: newQuantity
-                };
-            }
-            return item;
-        });
-
-        // Update the cart in the app state
-        updateState({ cart: updatedCart });
+        
     };
 
     const removeItem = (id) =>{

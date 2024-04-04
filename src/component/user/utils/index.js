@@ -7,7 +7,7 @@ export const hotproduct = [
         description: "The flagship iPhone from Apple.",
         brand: "Apple",
         rate: 4.5,
-        discount: 28,
+        discount: 7,
         viewBy : 250,
         inStock : 100,
         relatedProduct: [
@@ -40,7 +40,7 @@ export const hotproduct = [
         description: "Premium Android device known for its smooth performance.",
         brand: "OnePlus",
         rate: 3,
-        discount: 28,
+        discount: 25,
         viewBy : 250,
         inStock : 100,
         relatedProduct: [
@@ -56,7 +56,7 @@ export const hotproduct = [
         description: "Affordable flagship smartphone with top-notch specs.",
         brand: "Xiaomi",
         rate: 2,
-        discount: 28,
+        discount: 2,
         viewBy : 250,
         inStock : 100,
         relatedProduct: [
@@ -72,7 +72,7 @@ export const hotproduct = [
         description: "Sony's high-end smartphone with advanced camera features.",
         brand: "Sony",
         rate: 2.5,
-        discount: 28,
+        discount: 5,
         viewBy : 250,
         inStock : 100,
         relatedProduct: [
@@ -88,7 +88,7 @@ export const hotproduct = [
         description: "Feature-rich smartphone with impressive camera capabilities.",
         brand: "Huawei",
         rate: 4.5,
-        discount: 28,
+        discount: 11,
         viewBy : 250,
         inStock : 100,
         relatedProduct: [
@@ -104,7 +104,7 @@ export const hotproduct = [
         description: "Sleek and stylish smartphone with a unique design.",
         brand: "LG",
         rate: 3.5,
-        discount: 28,
+        discount: 20,
         viewBy : 250,
         inStock : 100,
         relatedProduct: [9,8],
@@ -118,7 +118,7 @@ export const hotproduct = [
         description: "Motorola's flagship offering with a large display and long battery life.",
         brand: "Motorola",
         rate: 5,
-        discount: 28,
+        discount: 1,
         viewBy : 250,
         inStock : 100,
         relatedProduct: [
@@ -134,7 +134,7 @@ export const hotproduct = [
         description: "Gaming-centric smartphone with powerful hardware.",
         brand: "Asus",
         rate: 5,
-        discount: 28,
+        discount: 9,
         viewBy : 250,
         inStock : 100,
         relatedProduct: [
