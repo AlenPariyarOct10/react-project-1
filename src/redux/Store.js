@@ -1,9 +1,14 @@
-import { createStore } from "redux";
+import { configureStore } from "@reduxjs/toolkit"
 
 const initialState = {
     count: 0
   }
   
+  configureStore({
+    initialState: initialState,
+    reducer: "g"
+  })
+
   const reducer = (state = initialState, action) => {
     switch (action.type) {
       case "INCREMENT":
@@ -21,4 +26,3 @@ const initialState = {
     }
   }
   
-  const Store = createStore(reducer);
