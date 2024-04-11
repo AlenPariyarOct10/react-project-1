@@ -1,28 +1,24 @@
-import { configureStore } from "@reduxjs/toolkit"
+import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import cartReducer from './CartState';
 
-const initialState = {
-    count: 0
-  }
-  
-  configureStore({
-    initialState: initialState,
-    reducer: "g"
-  })
+const persistConfig = {
+  key: 'root',
+  storage,
+};
 
-  const reducer = (state = initialState, action) => {
-    switch (action.type) {
-      case "INCREMENT":
-        return {
-          ...state,
-          count: state.count + 1
-        }
-      case "DECREMENT":
-        return {
-          ...state,
-          count: state.count - 1
-        }
-      default:
-        return state;
-    }
-  }
-  
+const rootReducer = combineReducers({
+  cart: cartReducer, 
+});
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
+});
+
+const persistor = persistStore(store);
+
+export { store, persistor };

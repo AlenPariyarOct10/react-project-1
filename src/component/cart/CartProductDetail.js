@@ -1,36 +1,26 @@
 import React, { useState } from 'react';
 import { Button } from 'antd';
-import { useAppContext } from "../ContextAPI";
+
+import {useSelector} from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { removeProduct } from '../../redux/CartState';
+import { updateProductQuantity } from '../../redux/CartState';
 
 const CartProductDetail = ({ id, name, description, image, quantity: initialQuantity = 1, price, discount }) => {
+    const dispatch = useDispatch();
     const [quantity, setQuantity] = useState(initialQuantity);
-    const { appState, updateState } = useAppContext();
 
     const handleQuantityChange = (event) => {
         const newQuantity = parseInt(event.target.value);
-        if(newQuantity > 1)
-        {
+        if (newQuantity >= 1) {
             setQuantity(newQuantity);
 
-            const updatedCart = appState.cart.map(item => {
-                if (item.id === id) {
-                    return {
-                        ...item,
-                        quantity: newQuantity
-                    };
-                }
-                return item;
-            });
-    
-            updateState({ cart: updatedCart });
+            dispatch(updateProductQuantity({ id: id, quantity: newQuantity }));
         }
-        
-        
     };
 
     const removeItem = (id) =>{
-        const newCart = appState.cart.filter(item => item.id != id);
-        updateState({cart: newCart});
+        dispatch(removeProduct(id));
      } 
 
     return (

@@ -5,15 +5,26 @@ import { Rate } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { Button } from 'antd';
 import DashboardProductReuseAble from './dashboard/DashboardProductReuseAble';
+import { useSelector } from "react-redux";
+import { useSearchParams } from 'react-router-dom';
 
 
 const ProductDetail = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const cart = useSelector((state) => state.cart);
+  const productId = searchParams.get("pro_id");
+
+  let item = cart.filter((item)=>item.id == productId);
+  item = item[0];
+  console.log("item",item);
     const {appState} = useAppContext();
+
+
     const settings = {
         customPaging: function(i) {
           return (
             <a>
-              <img src={appState.data.image} />
+              <img src={item.image} />
             </a>
           );
         },
@@ -39,14 +50,14 @@ const ProductDetail = () => {
     <div class="lg:w-3/5 mx-auto flex flex-wrap">
   
 
-      <img alt="ecommerce" class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={appState.data.image}/>
+      <img alt="ecommerce" class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={item.image}/>
       <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
       <div className="flex flex-row w-5/5">
-          <Rate allowHalf defaultValue={appState.data.rate} />
+          <Rate allowHalf defaultValue={item.rate} />
           </div>
          
-        <h2 class="text-sm title-font text-green-800 tracking-widest"><span className='line-through'>Rs. {appState.data.price}</span> Rs.{appState.data.price - appState.data.price*appState.data.discount/100}</h2><span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{appState.data.discount}% Off</span>
-        <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{appState.data.name}</h1>
+        <h2 class="text-sm title-font text-green-800 tracking-widest"><span className='line-through'>Rs. {item.price}</span> Rs.{appState.data.price - appState.data.price*appState.data.discount/100}</h2><span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{appState.data.discount}% Off</span>
+        <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{item.name}</h1>
         
         <p class="leading-relaxed">{appState.data.description}</p>
         <form class="max-w-sm">

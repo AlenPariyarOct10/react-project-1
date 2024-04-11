@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Button } from "antd";
 import { Layout, theme, ConfigProvider } from "antd";
 import { useMemo, useState } from "react";
@@ -17,6 +18,7 @@ import { Card } from "antd";
 import icon from "../../images/react.jpg";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAppContext } from "../ContextAPI";
+import useSelection from "antd/es/table/hooks/useSelection";
 const { Header, Content, Footer } = Layout;
 
 const items = new Array(3).fill(null).map((_, index) => ({
@@ -24,7 +26,12 @@ const items = new Array(3).fill(null).map((_, index) => ({
   label: `nav ${index + 1}`,
 }));
 
+
+
+
 const UserLayout = () => {
+  const cart = useSelector((state) => state.cart);
+  console.log("h", cart);
   const navigate = useNavigate();
   const [arrow, setArrow] = useState("Show");
   const mergedArrow = useMemo(() => {
@@ -45,27 +52,30 @@ const UserLayout = () => {
 
   const text = <span>My Cart</span>;
   const buttonWidth = 100;
-  let costPrice = appState.cart.reduce(
+  let costPrice = cart.reduce(
     (accum, product) => accum + parseInt(product.price) * product.quantity,
     0
   );
-  let discountPrice = appState.cart.reduce(
+  let discountPrice = cart.reduce(
     (accum, product) =>
       accum +
       parseInt((product.price * product.discount) / 100) * product.quantity,
     0
   );
+
+
+
   let grandTotal = costPrice - discountPrice;
   const content =
-    appState.cart.length > 0 ? (
+    cart.length > 0 ? (
       <div>
-        {appState.cart.map((product) => (
+        {cart.map((product) => (
           <p>
             {product.name} ({product.quantity})
           </p>
         ))}
         <hr />
-        <p className="font-bold">Items :{appState.cart.length}</p>
+        <p className="font-bold">Items :{cart.length}</p>
         <p className="font-bold">Cost Price : ${costPrice}</p>
         <p className="font-bold">Discount Price : ${discountPrice}</p>
         <p className="font-bold text-green-600">Grand Total : ${grandTotal}</p>
@@ -117,9 +127,7 @@ const UserLayout = () => {
     },
   ];
 
-  // let costPrice = appState.cart.reduce((accum, product)=>accum+parseInt(product.price)*product.quantity, 0);
-  // let discountPrice = appState.cart.reduce((accum, product)=>accum+(parseInt(product.price*product.discount/100))*product.quantity, 0);
-  // let grandTotal = costPrice-discountPrice;
+
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState("right");
   const showDrawer = () => {
@@ -132,7 +140,9 @@ const UserLayout = () => {
     setOpen(false);
   };
 
+
   return (
+
     <ConfigProvider
       theme={{
         components: {
@@ -198,7 +208,7 @@ const UserLayout = () => {
                     content={content}
                     arrow={mergedArrow}
                   >
-                    <Badge count={appState.cart.length}>
+                    <Badge count={cart.length}>
                       <Avatar
                         onClick={() => {
                           showDrawer();
@@ -243,44 +253,52 @@ const UserLayout = () => {
                 </Space>
               }
             >
-              {appState.cart.length > 0 ? (
-  <Space direction="vertical" size={5}>
-    <Card title="Cart" className="w-full bg-blue-200">
-      <h2 className="text-gray-900 text-2xl title-font font-small mb-1">
-        Total Items : {appState.cart.length}
-      </h2>
-      <h2 className="text-gray-900 text-2xl title-font font-small mb-1">
-        Cost Price : ${costPrice}
-      </h2>
-      <h2 className="text-gray-900 text-2xl title-font font-small mb-1">
-        Discount Amount : ${discountPrice}
-      </h2>
-      <hr />
-      <h1 className="text-green-600 text-2xl title-font font-bold mb-1">
-        Grand Total : ${grandTotal}
-      </h1>
-    </Card>
-    <hr />
-    <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
-      {appState.cart.map((product, index) => (
-        <CartProductDetail
-          key={index}
-          id={product.id}
-          name={product.name}
-          description={product.description}
-          image={product.image}
-          quantity={product.quantity}
-          price={product.price}
-          discount={product.discount}
-        />
-      ))}
-    </div>
-  </Space>
-) : (
-  <div>Cart is empty</div>
-)}
+              {cart.length > 0 ? (
+                <Space direction="vertical" size={5}>
+                  <Card title="Cart" className="w-full bg-blue-200">
+                    <h2 className="text-gray-900 text-2xl title-font font-small mb-1">
+                      Total Items : {cart.length}
+                    </h2>
+                    <h2 className="text-gray-900 text-2xl title-font font-small mb-1">
+                      Cost Price : ${costPrice}
+                    </h2>
+                    <h2 className="text-gray-900 text-2xl title-font font-small mb-1">
+                      Discount Amount : ${discountPrice}
+                    </h2>
+                    <hr />
+                    <h1 className="text-green-600 text-2xl title-font font-bold mb-1">
+                      Grand Total : ${grandTotal}
+                    </h1>
+                  </Card>
 
+                  <hr />
+                  <button
+                    onClick={() => {
+                      navigate("../viewCart");
+                    }}
+                    className="text-violet-700 hover:text-violet-800 hover:bg-slate-200 p-1 rounded"
+                  >
+                    Order now        </button>
+                  <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
+                    {cart.map((product, index) => (
+                      <CartProductDetail
+                        key={index}
+                        id={product.id}
+                        name={product.name}
+                        description={product.description}
+                        image={product.image}
+                        quantity={product.quantity}
+                        price={product.price}
+                        discount={product.discount}
+                      />
+                    ))}
+                  </div>
+                </Space>
+              ) : (
+                <div>Cart is empty</div>
+              )}
             </Drawer>
+
           </div>
         </Content>
         <Footer

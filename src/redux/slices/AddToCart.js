@@ -11,7 +11,7 @@ const addToCart = createSlice({
   reducers: {
     updateCart: (state, action) =>{
         state.loading = true;
-        state.data.push(action.payload); //merges new data with existing data
+        state.data.push(action.payload);
     },
 
     setLoading: (state, action) =>{

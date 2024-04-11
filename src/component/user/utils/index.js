@@ -144,3 +144,21 @@ export const hotproduct = [
     }
 ]
 
+
+export const paymentMethods = [
+    {
+        id: 1,
+        name: "Esewa",
+        logo: "https://dev-cdn.esewa.com.np/ui/images/logos/esewa-icon-large.png"
+    },
+    {
+        id: 2,
+        name: "Khalti",
+        logo: "https://techlekh.com/wp-content/uploads/2020/06/Khalti-app-in-nepali-language-1120x628.png"
+    },
+    {
+        id: 3,
+        name: "Cash on delivery",
+        logo: "https://th.bing.com/th/id/OIP.7t9ckVc-pgZkvE1vcBy7lgHaFP?rs=1&pid=ImgDetMain"
+    }
+]
