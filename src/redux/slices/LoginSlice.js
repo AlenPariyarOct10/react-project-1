@@ -19,29 +19,23 @@ const authSlice = createSlice({
             localStorage.removeItem("userToken");
         }
     },
-    extraReducers: {
-        [userLogin.pending]: (state)=>{
-            state.loading = true;
-            state.error = null;
-        },
-        [userLogin.fulfilled]: (state, {payload})=>{
-            state.loading = false;
-            state.userInfo = payload;
-            state.userToken = payload?.data?.token;
-        },[userLogin.rejected]: (state, {payload})=>{
-            state.loading = false;
-            state.error = payload;
-        },
-
-    },
-    prepare: (state)=>{
-        if(userToken)
-        {
-            state.userToken = userToken;
-        }
+    extraReducers: (builder) => {
+        builder
+            .addCase(userLogin.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(userLogin.fulfilled, (state, { payload }) => {
+                state.loading = false;
+                state.userInfo = payload;
+                state.userToken = payload?.data?.token;
+            })
+            .addCase(userLogin.rejected, (state, { payload }) => {
+                state.loading = false;
+                state.error = payload;
+            });
     }
+});
 
-})
-
-export const {logout} = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;
