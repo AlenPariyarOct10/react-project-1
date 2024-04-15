@@ -42,11 +42,11 @@ const DashboardProductReuseAble = ({ title, data, color }) => {
                     data?.map((product) => (
                         <div key={product.id}>
                             <Card
-                                cover={<img onClick={() => handleProductDetail(product)} height="20px" src={product.image}></img>}
+                                cover={<img onClick={() => handleProductDetail(product)} className='object-contain h-48 w-96' src={product.image}></img>}
                             >
-                                <p className='mb-2 text-1xl font-extrabold text-slate-900'>{product.name}</p>
+                                <p className='mb-2 text-1xl font-extrabold text-slate-900'>{product.title}</p>
                                 <p>${product.price}</p>
-                                <p>{product.description}</p>
+                                <p>{product.description.substr(0,30)} ......</p>
                                 <Button className='bg-blue-500 hover:bg-blue-700 text-white font-bold my-3 w-full rounded-full'>Buy now</Button>
                                 <Button onClick={() => addToCart(product)} className='bg-yellow-500 hover:bg-yellow-700 text-white font-bold my-3 w-full rounded-full'>Add to cart</Button>
                             </Card>

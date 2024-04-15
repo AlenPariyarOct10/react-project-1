@@ -1,5 +1,6 @@
 import axios from "axios";
 import {createAsyncThunk} from "@reduxjs/toolkit";
+
 export const userLogin = createAsyncThunk(
     "auth/login",
     async ({username, password}) => {
@@ -15,9 +16,12 @@ export const userLogin = createAsyncThunk(
                 {username, password},
                 config
             );
+            console.log("test ",data);
             return data;
         }catch(error)
         {
+            // console.log("test ",error);
+         
             
             // if(error.response && error.response.data.message)
             // {

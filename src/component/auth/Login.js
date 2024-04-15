@@ -33,9 +33,19 @@ console.log("AUTH => ",values);
 const handleNavigate = ()=>{
   navigate(-1);
 }
-const loginState = useSelector((state) => state);
+const data = useSelector((state) => state);
 
-console.log("login :",loginState);
+console.log("login :",data);
+console.log("loading :",data?.auth?.loading);
+React.useEffect(()=>{
+  if(data?.auth?.userInfo?.token)
+  {
+    console.log("has login");
+    navigate("/");
+  }
+}, []);
+
+
 
 
   return (
@@ -73,7 +83,7 @@ console.log("login :",loginState);
     </Form.Item>
 
   
-      <Button htmlType="submit">
+      <Button htmlType="submit" loading={data?.auth?.loading}>
         Login
       </Button>
 
