@@ -33,10 +33,9 @@ const ProductDetail = () => {
 
     fetchData();
 
-    // Clean up function
+ 
     return () => {
-      // Cancel ongoing request (if any) when component unmounts
-      // This is to prevent memory leaks and unnecessary network requests
+
     };
   }, [productId]);
 

@@ -1,3 +1,13 @@
+import {
+    AppstoreOutlined,
+    ContainerOutlined,
+    DesktopOutlined,
+    MailOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    PieChartOutlined,
+  } from '@ant-design/icons';
+
 export const hotproduct = [
     {
         id: 1,
@@ -162,3 +172,25 @@ export const paymentMethods = [
         logo: "https://th.bing.com/th/id/OIP.7t9ckVc-pgZkvE1vcBy7lgHaFP?rs=1&pid=ImgDetMain"
     }
 ]
+
+function getItem(label, key, icon, children, type) {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    };
+  }
+
+export const adminMenuItems = [
+    getItem('Dashboard', '/admin/dashboard', <PieChartOutlined />),
+    getItem('User List', '/admin/userlist', <DesktopOutlined />),
+    getItem('Profile', '/admin/profile', <ContainerOutlined />),
+    getItem('Hot Products', '/admin/hotproducts', <MailOutlined />),
+    getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
+      getItem('Option 9', '9'),
+      getItem('Option 10', '10'),
+      getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
+    ]),
+  ];

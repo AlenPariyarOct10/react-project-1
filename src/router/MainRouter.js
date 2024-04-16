@@ -7,12 +7,10 @@ import {
 
 
 import Blog from "../component/user/Blog";
-const AdminDashboard = React.lazy(() =>
-  import("../component/admin/AdminDashboard")
-);
-
-
-
+const AdminDashboard = React.lazy(() => import("../component/admin/AdminDashboard"));
+const HotProducts = React.lazy(() => import("../component/admin/HotProducts"));
+const Profile = React.lazy(() => import("../component/admin/Profile"));
+const UserList = React.lazy(() => import("../component/admin/UserList"));
 const Login = React.lazy(()=> import("../component/auth/Login"))
 const Signup = React.lazy(()=> import("../component/auth/Signup"))
 const PageNotFound = React.lazy(() => import("../component/PageNotFound"));
@@ -47,6 +45,18 @@ export const MainRouter = createBrowserRouter(
         <Route
           path="dashboard"
           element={<AdminDashboard></AdminDashboard>}
+        ></Route>
+        <Route
+          path="hotproducts"
+          element={<HotProducts></HotProducts>}
+        ></Route>
+        <Route
+          path="profile"
+          element={<Profile></Profile>}
+        ></Route>
+        <Route
+          path="userlist"
+          element={<UserList></UserList>}
         ></Route>
       </Route>
       <Route path="*" element={<PageNotFound></PageNotFound>} />
