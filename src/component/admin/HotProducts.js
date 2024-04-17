@@ -50,10 +50,6 @@ const HotProducts = ()=>{
             <MyFormItem name="productcategory" label="Category">
                 <Input />
             </MyFormItem>
-           
-        
-       
-
         <Button type="primary" htmlType="submit">
             Submit
         </Button>
