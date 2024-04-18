@@ -1,9 +1,8 @@
 import React from 'react';
 import { useSelector } from "react-redux";
 import { useAppContext } from '../ContextAPI';
-import CartProductDetail from '../cart/CartProductDetail';
 import { Card, Space, Button } from 'antd';
-import { Table, Tag } from 'antd';
+import { Table } from 'antd';
 import { paymentMethods } from './utils';
 import { Meta } from 'antd/es/list/Item';
 

@@ -1,9 +1,15 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
 import { Button, Form, Input } from 'antd';
 import { addNewProduct } from '../../services/addNewProduct';
 import { useDispatch } from 'react-redux';
+import { PlusOutlined } from '@ant-design/icons';
+import { Image, Upload } from 'antd';
+import { useState } from 'react';
+import { ImageUploader } from '../common';
+import { SaveButton } from '../common';
+
 const MyFormItemContext = React.createContext([]);
+
 
 function toArr(str) {
   return Array.isArray(str) ? str : [str];
@@ -19,41 +25,53 @@ const MyFormItem = ({ name, ...props }) => {
   return <Form.Item name={concatName} {...props} />;
 };
 
+
+
 const HotProducts = ()=>{
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
+    const [fileList, setFileList] = useState([]);
+    
+   
     let dispatch = useDispatch();
     const onFinish = (value) => {
+      console.log("values -> ",value);
+
         const product = JSON.stringify(value);
         let result = dispatch(addNewProduct(product));
-        console.log(result);
+        console.log("result - ",result);
       };
     return (
         
         <div className="main-body">
-           <b>Hot Products</b>
-           <Form name="form_item_path" layout="vertical" onFinish={onFinish}>
-            <h3>Add Product</h3>
-     
-           
-            <MyFormItem name="productname" label="Product Name">
-                <Input />
-            </MyFormItem>
-            <MyFormItem name="productprice" label="Price">
-                <Input />
-            </MyFormItem>
-            <MyFormItem name="productdesc" label="Description">
-                <Input />
-            </MyFormItem>
-            <MyFormItem name="productimg" label="Image">
-                <Input />
-            </MyFormItem>
-           
-            <MyFormItem name="productcategory" label="Category">
-                <Input />
-            </MyFormItem>
+           <div className="main-body">
+      <b>Hot Products</b>
+      <Form name="form_item_path" layout="vertical" onFinish={onFinish}>
+        <h3>Add Product</h3>
+        <Form.Item name="productname" label="Product Name">
+          <Input />
+        </Form.Item>
+        <Form.Item name="productprice" label="Price">
+          <Input />
+        </Form.Item>
+        <Form.Item name="productdesc" label="Description">
+          <Input />
+        </Form.Item>
+    
+        <Form.Item name="productcategory" label="Category">
+          <Input />
+        </Form.Item>
+        <Form.Item name="productImage" label="Category">
+          <ImageUploader imageUrl={imageUrl} previewImage={previewImage} />
+        </Form.Item>
         <Button type="primary" htmlType="submit">
-            Submit
+          Submit
         </Button>
-    </Form>
+   
+
+      </Form>
+    </div>
         </div>
     )
 }

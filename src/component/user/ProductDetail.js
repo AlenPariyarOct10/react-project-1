@@ -3,7 +3,7 @@ import { useAppContext } from '../ContextAPI';
 import { Rate } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { Button } from 'antd';
-import { useSelector } from "react-redux";
+
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -13,7 +13,6 @@ const ProductDetail = () => {
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
   const productId = searchParams.get("prod_id");
-  const cart = useSelector((state) => state.cart);
   const { appState } = useAppContext();
 
   useEffect(() => {
@@ -37,7 +36,7 @@ const ProductDetail = () => {
     return () => {
 
     };
-  }, [productId]);
+  }, [productId, searchParams]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
