@@ -3,6 +3,7 @@ import { useAppContext } from '../ContextAPI';
 import { Rate } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { Button } from 'antd';
+import {Spin} from 'antd';
 
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
@@ -38,7 +39,7 @@ const ProductDetail = () => {
     };
   }, [productId, searchParams]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Spin />;
   if (error) return <p>Error: {error}</p>;
   if (!product) return null;
 

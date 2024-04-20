@@ -54,9 +54,9 @@ export const AntdInput = (props) =>
 export const SaveButton = (props) => 
 {
     return (
-      <Button type="primary" htmlType="submit">
-      Submit
-    </Button>
+        <Button htmlType="submit" className='bg-green-300 text-[#fff]'>
+            {props.name}
+        </Button>
     )
 };
 

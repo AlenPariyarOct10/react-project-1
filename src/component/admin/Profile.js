@@ -52,7 +52,7 @@ const Profile = ()=>{
                     </Form.Item>
                     </div>
                     <div>
-                    <Button type="primary" htmlType="submit">
+                    <Button className='bg-green-300 text-[#fff]' htmlType="submit">
                         Submit
                     </Button>
                     </div>

@@ -6,20 +6,24 @@ import { useMemo, useState } from "react";
 import { Popover, Segmented } from "antd";
 import "../../App.css";
 import "../../index.css";
+import { logout } from "../../redux/slices/LoginSlice";
 import CartProductDetail from "../cart/CartProductDetail";
 import { useNavigate } from "react-router-dom";
-
+import { UserOutlined } from '@ant-design/icons';
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Avatar, Badge, Space } from "antd";
 import { Drawer, Radio } from "antd";
 import { DrawerProps, RadioChangeEvent } from "antd";
+import { userLogin } from "../../services/LoginAction";
 import { Card } from "antd";
-
+import { useDispatch } from "react-redux";
 import icon from "../../images/react.jpg";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAppContext } from "../ContextAPI";
 import useSelection from "antd/es/table/hooks/useSelection";
 const { Header, Content, Footer } = Layout;
+
+
 
 const items = new Array(3).fill(null).map((_, index) => ({
   key: String(index + 1),
@@ -45,6 +49,13 @@ const UserLayout = () => {
       pointAtCenter: true,
     };
   }, [arrow]);
+
+  const dispatch = useDispatch();
+
+  const token = useSelector((state) => state?.auth?.userInfo?.token);
+  console.log("token - >", token);
+
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -62,6 +73,42 @@ const UserLayout = () => {
       parseInt((product.price * product.discount) / 100) * product.quantity,
     0
   );
+
+
+
+  const handleLogout = () => {
+      dispatch(logout()); // Dispatch the logout action
+  };
+
+
+  const userOptions = 
+  [
+    {
+      name : "Home",
+      link : "/",
+      id : 1
+    },
+    {
+      name : "Logout",
+      id : 3
+    }
+  ]
+
+  const userOptionMenu = (
+    <div>
+      {
+        userOptions.map((item)=>(
+          
+          (item.id===3)?<button onClick={handleLogout}>{item.name}</button>:
+          <button onClick={navigate(item.link)}>{item.name}</button>
+
+          
+        ))
+      }
+    </div>
+  )
+
+  console.log(userOptionMenu);
 
 
 
@@ -141,6 +188,7 @@ const UserLayout = () => {
   };
 
 
+
   return (
 
     <ConfigProvider
@@ -185,6 +233,39 @@ const UserLayout = () => {
               ))}
             </div>
           </div>
+            
+          <div className="avatar">
+            
+             {token && (
+              <div
+                  style={{
+                    marginInlineStart: buttonWidth + 4,
+                    whiteSpace: "nowrap",
+                    cursor: "pointer",
+                  }}
+                >
+                  <Popover
+                    placement="bottomLeft"
+                    title={text}
+                    content={userOptionMenu}
+                    arrow={mergedArrow}
+                  >
+                    <div className="user-avatar">
+                    <Avatar
+                        onClick={() => {
+                          showDrawer();
+                        }}
+                        shape="circle"
+                        icon={<UserOutlined />}
+                      />
+                    </div>
+                  </Popover>
+                </div>
+             )
+              
+            }
+                
+              </div>
           <Space size={24}>
             <ConfigProvider
               button={{
@@ -194,6 +275,7 @@ const UserLayout = () => {
                 },
               }}
             >
+              
               <div className="demo">
                 <div
                   style={{

@@ -1,79 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form, Input } from 'antd';
 import { addNewProduct } from '../../services/addNewProduct';
 import { useDispatch } from 'react-redux';
-import { PlusOutlined } from '@ant-design/icons';
-import { Image, Upload } from 'antd';
-import { useState } from 'react';
 import { ImageUploader } from '../common';
-import { SaveButton } from '../common';
 
-const MyFormItemContext = React.createContext([]);
+const HotProducts = () => {
+  const [formData, setFormData] = useState([]);
 
+  const handleAdd = () => {
+    const newForm = {
+      productname: '',
+      productprice: '',
+      productdesc: '',
+      productcategory: '',
+      productImage: ''
+    };
+    setFormData([...formData, newForm]);
+  };
 
-function toArr(str) {
-  return Array.isArray(str) ? str : [str];
-}
-const MyFormItemGroup = ({ prefix, children }) => {
-  const prefixPath = React.useContext(MyFormItemContext);
-  const concatPath = React.useMemo(() => [...prefixPath, ...toArr(prefix)], [prefixPath, prefix]);
-  return <MyFormItemContext.Provider value={concatPath}>{children}</MyFormItemContext.Provider>;
-};
-const MyFormItem = ({ name, ...props }) => {
-  const prefixPath = React.useContext(MyFormItemContext);
-  const concatName = name !== undefined ? [...prefixPath, ...toArr(name)] : undefined;
-  return <Form.Item name={concatName} {...props} />;
-};
+  const handleDelete = (index) => {
+    const updatedFormData = formData.filter((_, i) => i !== index);
+    setFormData(updatedFormData);
+  };
 
+  const handleFormChange = (index, changedValues) => {
+    const updatedFormData = formData.map((item, i) => (i === index ? { ...item, ...changedValues } : item));
+    setFormData(updatedFormData);
+  };
 
+  const dispatch = useDispatch();
+  const onFinish = () => {
+    console.log('All Form Data:', formData);
+    formData.forEach((value) => {
+      const product = JSON.stringify(value);
+      dispatch(addNewProduct(product));
+    });
+  };
 
-const HotProducts = ()=>{
-    const [previewOpen, setPreviewOpen] = useState(false);
-    const [previewImage, setPreviewImage] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
-    const [fileList, setFileList] = useState([]);
-    
-   
-    let dispatch = useDispatch();
-    const onFinish = (value) => {
-      console.log("values -> ",value);
-
-        const product = JSON.stringify(value);
-        let result = dispatch(addNewProduct(product));
-        console.log("result - ",result);
-      };
-    return (
-        
-        <div className="main-body">
-           <div className="main-body">
+  return (
+    <div className="main-body w-3/5">
       <b>Hot Products</b>
-      <Form name="form_item_path" layout="vertical" onFinish={onFinish}>
-        <h3>Add Product</h3>
-        <Form.Item name="productname" label="Product Name">
-          <Input />
-        </Form.Item>
-        <Form.Item name="productprice" label="Price">
-          <Input />
-        </Form.Item>
-        <Form.Item name="productdesc" label="Description">
-          <Input />
-        </Form.Item>
-    
-        <Form.Item name="productcategory" label="Category">
-          <Input />
-        </Form.Item>
-        <Form.Item name="productImage" label="Category">
-          <ImageUploader imageUrl={imageUrl} previewImage={previewImage} />
-        </Form.Item>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-   
-
-      </Form>
+      {formData.map((form, index) => (
+        <Form
+          key={index}
+          name={`form_item_path_${index}`}
+          className="w-full"
+          layout="vertical"
+          initialValues={form}
+          onValuesChange={(changedValues) => handleFormChange(index, changedValues)}
+          onFinish={onFinish}
+        >
+          <h3>Add Product</h3>
+          <Form.Item name="productname" label="Product Name">
+            <Input />
+          </Form.Item>
+          <Form.Item name="productprice" label="Price">
+            <Input />
+          </Form.Item>
+          <Form.Item name="productdesc" label="Description">
+            <Input />
+          </Form.Item>
+          <Form.Item name="productcategory" label="Category">
+            <Input />
+          </Form.Item>
+          <Form.Item name="productImage" label="Category">
+            <ImageUploader />
+          </Form.Item>
+          <Button onClick={() => handleDelete(index)} className="bg-red-300 text-[#000]">
+            Delete Product
+          </Button>
+        </Form>
+      ))}
+      <Button onClick={handleAdd} className="bg-yellow-300 text-[#000]">
+        Add Product
+      </Button>
+      <Button onClick={onFinish} className="bg-green-300 text-[#fff]">
+        Submit All
+      </Button>
     </div>
-        </div>
-    )
-}
+  );
+};
 
 export default HotProducts;

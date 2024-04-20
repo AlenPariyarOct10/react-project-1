@@ -20,6 +20,8 @@ const onFinishFailed = (errorInfo) => {
   
   console.log('Failed:', errorInfo);
 };
+
+
 const Login = ({title}) => {
 const navigate = useNavigate();
 
@@ -35,15 +37,12 @@ const handleNavigate = ()=>{
 }
 const data = useSelector((state) => state);
 
-console.log("login :",data);
-console.log("loading :",data?.auth?.loading);
-React.useEffect(()=>{
-  if(data?.auth?.userInfo?.token)
-  {
+React.useEffect(() => {
+  if (data?.auth?.userInfo?.token) {
     console.log("has login");
     navigate("/");
   }
-}, []);
+}, [data?.auth?.userInfo?.token]);
 
 
 
