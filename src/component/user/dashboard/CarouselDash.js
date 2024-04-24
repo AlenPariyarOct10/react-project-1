@@ -15,7 +15,7 @@ const CarouselDash = ({ data, title }) => {
       <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-3xl dark:text-white"><mark class={"px-2 "} >{title}</mark></h1>
 
       <Slider {...settings}>
-        {data.map((item) => (
+        {/* {data.map((item) => (
           
           <div key={item.id} class="flex justify-center"
             style={{
@@ -33,7 +33,7 @@ const CarouselDash = ({ data, title }) => {
             }} src={item.image} class="object-contain h-20 w-full blur-1xl ..." />
          
             </div>
-        ))}
+        ))} */}
       </Slider>
     </>
   );

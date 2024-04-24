@@ -9,7 +9,7 @@ import "../../index.css";
 import { logout } from "../../redux/slices/LoginSlice";
 import CartProductDetail from "../cart/CartProductDetail";
 import { useNavigate } from "react-router-dom";
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined } from "@ant-design/icons";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Avatar, Badge, Space } from "antd";
 import { Drawer, Radio } from "antd";
@@ -21,17 +21,18 @@ import icon from "../../images/react.jpg";
 import { NavLink, Outlet } from "react-router-dom";
 import { useAppContext } from "../ContextAPI";
 import useSelection from "antd/es/table/hooks/useSelection";
+import SearchProducts from "../../redux/slices/SearchProducts";
+import axios from "axios";
+
+
+
+import { AutoComplete, Input } from "antd";
+
 const { Header, Content, Footer } = Layout;
-
-
-
 const items = new Array(3).fill(null).map((_, index) => ({
   key: String(index + 1),
   label: `nav ${index + 1}`,
 }));
-
-
-
 
 const UserLayout = () => {
   const cart = useSelector((state) => state.cart);
@@ -50,11 +51,13 @@ const UserLayout = () => {
     };
   }, [arrow]);
 
+  const state = useSelector((state) => state);
+
+
   const dispatch = useDispatch();
 
   const token = useSelector((state) => state?.auth?.userInfo?.token);
   console.log("token - >", token);
-
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -74,53 +77,44 @@ const UserLayout = () => {
     0
   );
 
-
-
   const handleLogout = () => {
-      dispatch(logout()); // Dispatch the logout action
+    dispatch(logout()); // Dispatch the logout action
   };
 
-
-  const userOptions = 
-  [
+  const userOptions = [
     {
-      name : "Home",
-      link : "/",
-      id : 1
+      name: "Home",
+      link: "/",
+      id: 1,
     },
     {
-      name : "Logout",
-      id : 3
-    }
-  ]
+      name: "Logout",
+      id: 3,
+    },
+  ];
 
   const userOptionMenu = (
     <div>
       {
-        userOptions.map((item)=>(
-          
-          (item.id===3)?<button onClick={handleLogout}>{item.name}</button>:
-          <button onClick={navigate(item.link)}>{item.name}</button>
-
-          
-        ))
+        // userOptions.map((item)=>(
+        //   (item.id===3)?<button onClick={handleLogout}>{item.name}</button>:
+        //   <button onClick={navigate(item.link)}>{item.name}</button>
+        // ))
       }
     </div>
-  )
+  );
 
   console.log(userOptionMenu);
-
-
 
   let grandTotal = costPrice - discountPrice;
   const content =
     cart.length > 0 ? (
       <div>
-        {cart.map((product) => (
+        {/* {cart.map((product) => (
           <p>
             {product.name} ({product.quantity})
           </p>
-        ))}
+        ))} */}
         <hr />
         <p className="font-bold">Items :{cart.length}</p>
         <p className="font-bold">Cost Price : ${costPrice}</p>
@@ -174,7 +168,6 @@ const UserLayout = () => {
     },
   ];
 
-
   const [open, setOpen] = useState(false);
   const [placement, setPlacement] = useState("right");
   const showDrawer = () => {
@@ -187,10 +180,43 @@ const UserLayout = () => {
     setOpen(false);
   };
 
-
+  const searchResult = async (query) => {
+   
+  
+    try {
+      const response = await axios.get(`https://fakestoreapi.com/products/`);
+      const filteredTitles = response.data
+        .filter((item) => item.title.toLowerCase().includes(query.toLowerCase()))
+        .map((item) => ({
+          id: item.id,
+          value: item.title,
+          label: (
+            <div onClick={() => {
+              navigate(`../ProductDetail?prod_id=${item.id}`);
+            }}>
+              {item.title}
+            </div>
+          )
+        }));
+      console.log(filteredTitles);
+      return filteredTitles;
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+      return [];
+    }
+  };
+  
+  
+  const [options, setOptions] = useState([]);
+  
+  let handleSearch = async (value) => {
+    console.log(value);
+    const searchOptions = await searchResult(value);
+    setOptions(value ? searchOptions : []);
+  };
+  
 
   return (
-
     <ConfigProvider
       theme={{
         components: {
@@ -222,50 +248,59 @@ const UserLayout = () => {
                 </NavLink>
               ))}
             </div>
+            <div className="mt-[-10px]">
 
+              <AutoComplete
+                popupMatchSelectWidth={252}
+                style={{
+                  width: 300,
+                }}
+                options={options}
+                onSearch={handleSearch}
+                size="large"
+              >
+                <Input.Search size="large" placeholder="input here" enterButton />
+              </AutoComplete>
+            </div>
             <div className="header-right">
-              {authInfo?.map((item) => (
+              {/* {authInfo?.map((item) => (
                 <NavLink key={item?.link} to={item?.link}>
                   <Button style={{ margin: "0px 2px 0px 2px" }} type="primary">
                     {item?.name}
                   </Button>
                 </NavLink>
-              ))}
+              ))} */}
             </div>
           </div>
-            
+
           <div className="avatar">
-            
-             {token && (
+            {token && (
               <div
-                  style={{
-                    marginInlineStart: buttonWidth + 4,
-                    whiteSpace: "nowrap",
-                    cursor: "pointer",
-                  }}
+                style={{
+                  marginInlineStart: buttonWidth + 4,
+                  whiteSpace: "nowrap",
+                  cursor: "pointer",
+                }}
+              >
+                <Popover
+                  placement="bottomLeft"
+                  title={text}
+                  content={userOptionMenu}
+                  arrow={mergedArrow}
                 >
-                  <Popover
-                    placement="bottomLeft"
-                    title={text}
-                    content={userOptionMenu}
-                    arrow={mergedArrow}
-                  >
-                    <div className="user-avatar">
+                  <div className="user-avatar">
                     <Avatar
-                        onClick={() => {
-                          showDrawer();
-                        }}
-                        shape="circle"
-                        icon={<UserOutlined />}
-                      />
-                    </div>
-                  </Popover>
-                </div>
-             )
-              
-            }
-                
+                      onClick={() => {
+                        showDrawer();
+                      }}
+                      shape="circle"
+                      icon={<UserOutlined />}
+                    />
+                  </div>
+                </Popover>
               </div>
+            )}
+          </div>
           <Space size={24}>
             <ConfigProvider
               button={{
@@ -275,7 +310,8 @@ const UserLayout = () => {
                 },
               }}
             >
-              
+
+
               <div className="demo">
                 <div
                   style={{
@@ -342,14 +378,14 @@ const UserLayout = () => {
                       Total Items : {cart.length}
                     </h2>
                     <h2 className="text-gray-900 text-2xl title-font font-small mb-1">
-                      Cost Price : ${costPrice}
+                      {/* Cost Price : ${costPrice} */}
                     </h2>
                     <h2 className="text-gray-900 text-2xl title-font font-small mb-1">
-                      Discount Amount : ${discountPrice}
+                      {/* Discount Amount : ${discountPrice} */}
                     </h2>
                     <hr />
                     <h1 className="text-green-600 text-2xl title-font font-bold mb-1">
-                      Grand Total : ${grandTotal}
+                      {/* Grand Total : ${grandTotal} */}
                     </h1>
                   </Card>
 
@@ -360,9 +396,10 @@ const UserLayout = () => {
                     }}
                     className="text-violet-700 hover:text-violet-800 hover:bg-slate-200 p-1 rounded"
                   >
-                    Order now        </button>
+                    Order now{" "}
+                  </button>
                   <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
-                    {cart.map((product, index) => (
+                    {/* {cart.map((product, index) => (
                       <CartProductDetail
                         key={index}
                         id={product.id}
@@ -373,14 +410,13 @@ const UserLayout = () => {
                         price={product.price}
                         discount={product.discount}
                       />
-                    ))}
+                    ))} */}
                   </div>
                 </Space>
               ) : (
                 <div>Cart is empty</div>
               )}
             </Drawer>
-
           </div>
         </Content>
         <Footer

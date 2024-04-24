@@ -7,6 +7,7 @@ import {
 
 
 import Blog from "../component/user/Blog";
+const FilterProducts = React.lazy(()=> import("../component/user/dashboard/FilterProducts"))
 const AdminDashboard = React.lazy(() => import("../component/admin/AdminDashboard"));
 const HotProducts = React.lazy(() => import("../component/admin/HotProducts"));
 const Profile = React.lazy(() => import("../component/admin/Profile"));
@@ -35,6 +36,10 @@ export const MainRouter = createBrowserRouter(
         <Route path="blog" element={<Blog title="User - Blog"></Blog>}></Route>
         <Route path="productDetail" element={<ProductDetail></ProductDetail>}></Route>
         <Route path="viewCart" element={<ViewCart></ViewCart>}></Route>
+        <Route
+          path="filterproducts"
+          element={<FilterProducts></FilterProducts>}
+        ></Route>
       </Route>
 
       <Route path="/auth" element={<AuthLayout/>}>
@@ -50,6 +55,7 @@ export const MainRouter = createBrowserRouter(
           path="hotproducts"
           element={<HotProducts></HotProducts>}
         ></Route>
+       
         <Route
           path="profile"
           element={<Profile></Profile>}

@@ -7,6 +7,8 @@ import cartReducer from './CartState';
 import allProducts from './slices/AllProducts';
 import CarouselData from './slices/CarouselData';
 import allUsers from './slices/AllUsers';
+import SearchProducts from './slices/SearchProducts';
+import FilterProductsSlice from './slices/FilterProductsSlice';
 
 
 const persistConfig = {
@@ -19,7 +21,9 @@ const rootReducer = combineReducers({
   auth: authSlice, 
   products: allProducts,
   carousel: CarouselData,
-  users: allUsers
+  users: allUsers,
+  SearchProducts: SearchProducts,
+  FilterProductsSlice: FilterProductsSlice
 
 });
 

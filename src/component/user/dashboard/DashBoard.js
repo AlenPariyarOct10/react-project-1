@@ -19,6 +19,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Spin} from 'antd';
 import { fetchCarouselData } from '../../../services/getProducts';
+import { fetchSearchProduct } from '../../../services/getProducts';
 
 const DashBoard = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ const DashBoard = () => {
   useEffect(() => {
     dispatch(getAllProducts());
     dispatch(fetchCarouselData());
+    dispatch(fetchSearchProduct());
   }, [dispatch]);
 
   console.log("products ->>>> ", products.data);

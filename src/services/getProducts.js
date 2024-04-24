@@ -15,3 +15,11 @@ export const fetchCarouselData = createAsyncThunk(
             return response;
     }
 );
+export const fetchSearchProduct = createAsyncThunk(
+    "products/search", // Action type prefix
+    async (product) => {
+            const response = await axios.get(`https://fakestoreapi.com/products/${product}`);
+            return response;
+    }
+);
+
