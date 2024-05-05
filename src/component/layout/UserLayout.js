@@ -36,7 +36,7 @@ const items = new Array(3).fill(null).map((_, index) => ({
 
 const UserLayout = () => {
   const cart = useSelector((state) => state.cart);
-  console.log("h", cart);
+  console.log("cart->", cart);
   const navigate = useNavigate();
   const [arrow, setArrow] = useState("Show");
   const mergedArrow = useMemo(() => {
@@ -62,7 +62,7 @@ const UserLayout = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  const { appState } = useAppContext();
+
 
   const text = <span>My Cart</span>;
   const buttonWidth = 100;
@@ -70,12 +70,7 @@ const UserLayout = () => {
     (accum, product) => accum + parseInt(product.price) * product.quantity,
     0
   );
-  let discountPrice = cart.reduce(
-    (accum, product) =>
-      accum +
-      parseInt((product.price * product.discount) / 100) * product.quantity,
-    0
-  );
+  
 
   const handleLogout = () => {
     dispatch(logout()); // Dispatch the logout action
@@ -106,7 +101,7 @@ const UserLayout = () => {
 
   console.log(userOptionMenu);
 
-  let grandTotal = costPrice - discountPrice;
+  let grandTotal = costPrice ;
   const content =
     cart.length > 0 ? (
       <div>
@@ -118,7 +113,7 @@ const UserLayout = () => {
         <hr />
         <p className="font-bold">Items :{cart.length}</p>
         <p className="font-bold">Cost Price : ${costPrice}</p>
-        <p className="font-bold">Discount Price : ${discountPrice}</p>
+       
         <p className="font-bold text-green-600">Grand Total : ${grandTotal}</p>
 
         <button
@@ -378,7 +373,7 @@ const UserLayout = () => {
                       Total Items : {cart.length}
                     </h2>
                     <h2 className="text-gray-900 text-2xl title-font font-small mb-1">
-                      {/* Cost Price : ${costPrice} */}
+                      Cost Price : ${costPrice}
                     </h2>
                     <h2 className="text-gray-900 text-2xl title-font font-small mb-1">
                       {/* Discount Amount : ${discountPrice} */}
@@ -399,7 +394,7 @@ const UserLayout = () => {
                     Order now{" "}
                   </button>
                   <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
-                    {/* {cart.map((product, index) => (
+                    {cart.map((product, index) => (
                       <CartProductDetail
                         key={index}
                         id={product.id}
@@ -408,9 +403,9 @@ const UserLayout = () => {
                         image={product.image}
                         quantity={product.quantity}
                         price={product.price}
-                        discount={product.discount}
+                        discount={10}
                       />
-                    ))} */}
+                    ))}
                   </div>
                 </Space>
               ) : (
@@ -425,7 +420,7 @@ const UserLayout = () => {
           }}
           className="text-white font-mono"
         >
-          KMC React ©{new Date().getFullYear()} Created by <b>Alen Pariyar</b>
+          KMC React Project ©{new Date().getFullYear()} Created by <b>Alen Pariyar</b>
         </Footer>
       </Layout>
     </ConfigProvider>

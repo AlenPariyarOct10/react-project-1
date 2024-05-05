@@ -4,6 +4,11 @@ import { Rate } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { Button } from 'antd';
 import { Spin } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../../redux/CartState';
+import {Card} from 'antd';
 
 import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
@@ -16,6 +21,27 @@ const ProductDetail = () => {
   const productId = searchParams.get("prod_id");
   const { appState } = useAppContext();
   const [responseData, setResponseData] = useState(null); // New state for storing response data
+
+  const cart = useSelector((state) => state.cart);
+
+  let dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const handleProductDetail = (product) => {
+      navigate("../ProductDetail?prod_id="+product.id);
+      // updateState({
+      //     ...appState,
+      //     data: product
+      // })
+  }
+
+  const addToCart = (product) => {
+      
+      const existingItemIndex = (cart.length>0)?cart.findIndex(item => item.id === product.id):-1;
+      if (existingItemIndex === -1) {
+          dispatch(addProduct({...product, quantity: 1}));
+      }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +74,10 @@ const ProductDetail = () => {
       <section className="text-gray-700 body-font overflow-hidden bg-white">
         <div className="container px-5 py-24 mx-auto">
           <div className="lg:w-3/5 mx-auto flex flex-wrap">
-            <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={product.image} />
+           
+            <Card
+                                cover={<img onClick={() => handleProductDetail(product)} className='object-contain h-48 w-96' src={product.image}></img>}
+                            />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
             <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900">{responseData.title}</h1>
 
@@ -84,7 +113,7 @@ const ProductDetail = () => {
             </div>
             <div className="flex gap-2 justify-between w-full">
               <Button className='bg-black hover:bg-slate-900 text-white font-bold my-3 w-full rounded-full'>Buy Now</Button>
-              <Button className='bg-blue-600 hover:bg-slate-900 text-white font-bold my-3 w-full rounded-full'>Add to cart</Button>
+              <Button onClick={() => addToCart(product)} className='bg-yellow-500 hover:bg-yellow-700 text-white font-bold my-3 w-full rounded-full'>Add to cart</Button>
             </div>
           </div>
         </div>

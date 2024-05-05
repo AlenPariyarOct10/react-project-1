@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 
 
+
 import Blog from "../component/user/Blog";
 const FilterProducts = React.lazy(()=> import("../component/user/dashboard/FilterProducts"))
 const AdminDashboard = React.lazy(() => import("../component/admin/AdminDashboard"));
@@ -20,6 +21,8 @@ const AuthLayout = React.lazy(() => import("../component/layout/AuthLayout"));
 const DashBoard = React.lazy(() => import("../component/user/dashboard/DashBoard"));
 const ProductDetail = React.lazy(()=> import("../component/user/ProductDetail"));
 const ViewCart = React.lazy(()=> import("../component/user/ViewCart"));
+const AboutUs = React.lazy(()=> import("../component/user/AboutUs"));
+const ContactUs = React.lazy(()=> import("../component/user/ContactUs"));
 
 const Information = React.lazy(() =>
   import("../component/user/Information")
@@ -36,6 +39,8 @@ export const MainRouter = createBrowserRouter(
         <Route path="blog" element={<Blog title="User - Blog"></Blog>}></Route>
         <Route path="productDetail" element={<ProductDetail></ProductDetail>}></Route>
         <Route path="viewCart" element={<ViewCart></ViewCart>}></Route>
+        <Route path="aboutus" element={<AboutUs></AboutUs>}></Route>
+        <Route path="contactus" element={<ContactUs></ContactUs>}></Route>
         <Route
           path="filterproducts"
           element={<FilterProducts></FilterProducts>}

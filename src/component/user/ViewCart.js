@@ -1,125 +1,108 @@
-import { Table } from 'antd'
-import React from 'react'
-import { useSelector } from 'react-redux';
-// import { paymentmethod } from '../component/utlis';
-import { paymentMethods } from './utils';
-// import { PaymentMethod } from './PaymentMethod';
-import { Esewa } from './Esewa';
-import Khalti from './Khalti';
-import KhaltiCheckout from 'khalti-checkout-web';
+import React from "react";
+import { useSelector } from "react-redux";
+import CartProductDetail from "../cart/CartProductDetail";
+import CartProductList from "../cart/CartProductList";
 
+const ViewCart = () => {
+  const cart = useSelector((state) => state.cart);
 
-export const PaymentMethod = () => {
-    
-    const carditem = useSelector((state) => state);
-  console.log("carditem", carditem);
-  const [orderdata,setOrderData] = React.useState([]);
-  console.log("orderdata", orderdata);
-  React.useEffect(() => {
-    setOrderData(carditem?.addtocard?.data);
-  }, [carditem?.addtocard?.data]);
-
-  const total= orderdata.reduce((accumulator, currentItem)=>{
-    return accumulator+currentItem.price * currentItem.qty;
-  },0)
-  const addtoqty= orderdata.reduce((accumulator, currentItem)=>{
-    return accumulator+currentItem.qty;
-  },0)
-
-      const columns = [
-        {
-          title: 'Name',
-          dataIndex: 'name',
-          key: 'name',
-        },
-        {
-          title: 'Price',
-          dataIndex: 'price',
-          key: 'price',
-        },
-        {
-          title: 'Qty',
-          dataIndex: 'qty',
-          key: 'qty',
-        },
-      ];
-      const path="https://uat.esewa.com.np/epay/main";
-   const params={
-    amt:100,
-    psc:0,
-    pdc:0,
-    txAmt:0,
-    tAmt:100,
-    pid:"fasfjhdsajflfhaal",
-    scd:"EPAYTEST",
-    su:"http://merchant.com.np/page/esewa_payment_success",
-    fu:"http://merchant.com.np/page/esewa_payment_failed"
-
-   }
-
-   let checkout = new KhaltiCheckout(Khalti);
-
-   const [isPayment,setPayment]=React.useState({
-    eSewa:false,
-    khalti:false
-   });
-   const handelpayment = (id) => {
-    console.log("esewa", id);
-    if (id === 1) {
-      setPayment({
-        eSewa: true,
-        khalti: false,
-        cod: false
-      });
-    } else if (id === 2) {
-      setPayment({
-        eSewa: false,
-        khalti: true,
-        cod: false
-      });
-
-      
-    } else {
-      setPayment({
-        eSewa: false,
-        khalti: false,
-        cod: true
-      });
-    }
-  };
-  
-   console.log("isPayment", isPayment)
-      
+  console.log("cart state->", cart);
 
   return (
-    <div className='text-center  text-base mb-3 '>
-        Modes of Payment
-        <div className=' md:flex justify-center '> 
-          <div className='h-auto'>
-          <div   >
-            <Table dataSource={carditem?.addtocard?.data} columns={columns}   />
+    <div>
+     
+      <section class="py-24 relative">
+        <div class="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
+          <h2 class="title font-manrope font-bold text-4xl leading-10 mb-8 text-center text-black">
+            Shopping Cart
+          </h2>
+          <div class="hidden lg:grid grid-cols-2 py-6">
+            <div class="font-normal text-xl leading-8 text-gray-500">
+              Product
+            </div>
+            <p class="font-normal text-xl leading-8 text-gray-500 flex items-center justify-between">
+              <span class="w-full max-w-[200px] text-center">
+                Price
+              </span>
+              <span class="w-full max-w-[260px] text-center">Quantity</span>
+              <span class="w-full max-w-[200px] text-center">Total</span>
+            </p>
           </div>
-          <div className=' flex justify-center gap-2'>
-            <div>Total amount is:{total}</div>
-            <div>Total number of qty:{addtoqty}</div>
-          </div>
-          </div>
-        <div className=' flex justify-end'>
-        {paymentMethods?.map((item) => (
-                <div key={item.image} style={{
-                    color: item.color
-                }} className='flex justify-end' onClick={()=>handelpayment(item.id)}>
-                  {<img alt="example" src={item.image} className="w-15 h-10"  />}
-                  
-                </div>
-              ))}
-        </div>
-        </div>
-        
-          {isPayment?.eSewa &&
-          <Esewa path={path} params={params} /> }
-        
-    </div>
-  )
-}
 
+          {cart.map((product, index) => (
+            <>
+          <CartProductList
+            key={index}
+            id={product.id}
+            name={product.title}
+            description={product.description}
+            image={product.image}
+            quantity={product.quantity}
+            price={product.price}
+            discount={10}
+          />
+          </>
+        ))}
+        
+          <div class="bg-gray-50 rounded-xl p-6 w-full mb-8 max-lg:max-w-xl max-lg:mx-auto">
+            
+       
+            <div class="flex items-center justify-between w-full py-6">
+              <p class="font-manrope font-medium text-2xl leading-9 text-gray-900">
+                Total
+              </p>
+              <h6 class="font-manrope font-medium text-2xl leading-9 text-indigo-500">
+                ${
+                  cart.reduce((accum, product) => accum + parseFloat(product.price) * product.quantity,0)
+                }
+              </h6>
+            </div>
+          </div>
+          <div class="flex items-center flex-col sm:flex-row justify-center gap-3 mt-8">
+            <button class="rounded-full py-4 w-full max-w-[280px]  flex items-center bg-indigo-50 justify-center transition-all duration-500 hover:bg-indigo-100">
+              <span class="px-2 font-semibold text-lg leading-8 text-indigo-600">
+                Add Coupon Code
+              </span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+              >
+                <path
+                  d="M8.25324 5.49609L13.7535 10.9963L8.25 16.4998"
+                  stroke="#4F46E5"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+            <button class="rounded-full w-full max-w-[280px] py-4 text-center justify-center items-center bg-indigo-600 font-semibold text-lg text-white flex transition-all duration-500 hover:bg-indigo-700">
+              Continue to Payment
+              <svg
+                class="ml-2"
+                xmlns="http://www.w3.org/2000/svg"
+                width="23"
+                height="22"
+                viewBox="0 0 23 22"
+                fill="none"
+              >
+                <path
+                  d="M8.75324 5.49609L14.2535 10.9963L8.75 16.4998"
+                  stroke="white"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default ViewCart;
